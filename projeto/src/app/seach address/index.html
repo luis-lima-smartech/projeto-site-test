@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>busca de endereço viacep</title>
+    <link rel="stylesheet" href="../../assets/styles/styles1.css"/>
+    <link rel="stylesheet" href="../../assets/styles/styles.css"/>
+  </head>
+<body>
+    <div class="container">
+    <nav class="aside-navbar">
+      <header class="nav-header">
+        <img
+          src="../../assets/image/logo-smartech.jpg.jpg"
+          class="main-logo"
+          alt="logo da smartech"
+        />
+       </header>
+       <main class="nav-links-container">
+         <ul class="nav-link">
+          <li class="nav-link-item">
+              <a href="../home/Untitled-1.html" class="link">Início</a>
+          </li>
+          <li class="nav-link-item">    
+              <a href="../products/index.html" class="link">Produtos</a>
+          </li>    
+          <li class="nav-link-item">    
+              <a href="../users/index.html" class="link">Usuários</a>
+          </li>    
+          <li class="nav-link-item">    
+              <a href="../clients/index.html" class="link">Clientes</a>
+          </li>
+           <li class="nav-link-item">    
+              <a href="../seach address/index.html" class="link visited">Endereço</a>
+          </li>
+         </ul>
+       </main>
+      </nav>
+    </body>
+  <div class="cep-app">
+    <h1>Consulte atravez do CEP</h1>
+
+    <form id="cepForm">
+      <input type="text" id="cepInput" placeholder="Digite o CEP (apenas números)" maxlength="8" required />
+      <button type="submit">Buscar</button>
+    </form>
+
+    <div id="resultado" class="resultado"></div>
+  </div>
+
+  <script>
+    const form = document.getElementById('cepForm');
+    const cepInput = document.getElementById('cepInput');
+    const resultadoDiv = document.getElementById('resultado');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const cep = cepInput.value.trim();
+
+      // validação simples
+      if (!/^[0-9]{8}$/.test(cep)) {
+        alert('CEP inválido! Digite 8 números.');
+        return;
+      }
+
+      try {
+        const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+        if (!response.ok) throw new Error('Erro na resposta da API');
+
+        const dados = await response.json();
+        if (dados.erro) {
+          resultadoDiv.innerHTML = '<p>CEP não encontrado.</p>';
+        } else {
+          resultadoDiv.innerHTML = `
+            <p><strong>Logradouro:</strong> ${dados.logradouro || '-'}</p>
+            <p><strong>Bairro:</strong> ${dados.bairro || '-'}</p>
+            <p><strong>Cidade:</strong> ${dados.localidade}</p>
+            <p><strong>Estado (UF):</strong> ${dados.uf}</p>
+            <p><strong>CEP:</strong> ${dados.cep}</p>
+          `;
+        }
+        resultadoDiv.classList.add('show');
+      } catch (erro) {
+        console.error(erro);
+        resultadoDiv.innerHTML = '<p>Erro ao buscar o CEP. Tente novamente.</p>';
+        resultadoDiv.classList.add('show');
+      }
+    });
+  </script>
+</body>
+</html>

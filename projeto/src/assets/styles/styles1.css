@@ -1,0 +1,38 @@
+:root {
+  --menu-blue: #3f7bcf;
+}
+
+.cep-app {
+  margin-top: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cep-app h1 {
+  color: var(--menu-blue);
+  font-size: 1.3rem;
+  margin-bottom: 16px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.cep-box {
+  background: #ffffff;
+  border: 2px solid var(--menu-blue);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 24px;
+  max-width: 380px;
+  width: 100%;
+}
+
+.cep-box form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.cep-box .resultado p {
+  margin: 4px 0;
+}
